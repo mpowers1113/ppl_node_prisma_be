@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// This is just placeholder content copy-pasted from prisma docs
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  username       String
+  email          String          @unique
+  password       String
+  workouts       Workout[]
+  favorites      Workout[]       @relation("favorites")
+  comments       Comment[]
+  following      UserFollowers[] @relation("UserFollowing")
+  followers      UserFollowers[] @relation("UserFollowers")
+  sentShares     Share[]         @relation("Sender")
+  receivedShares Share[]         @relation("Receiver")
+}
+
+model Workout {
+  id        Int           @id @default(autoincrement())
+  name      String
+  exercises Exercise[]
+  userId    Int
+  user      User          @relation(fields: [userId], references: [id])
+  favorites User[]        @relation("favorites")
+  comments  Comment[]
+  shares    Share[]
+  tags      WorkoutTags[]
+}
+
+model Exercise {
+  id        Int            @id @default(autoincrement())
+  name      String
+  sets      Int
+  reps      Int
+  imageUrl  String?
+  videoUrl  String?
+  workoutId Int
+  workout   Workout        @relation(fields: [workoutId], references: [id])
+  tags      ExerciseTags[]
+}
+
+model Comment {
+  id        Int     @id @default(autoincrement())
+  text      String
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+  workoutId Int
+  workout   Workout @relation(fields: [workoutId], references: [id])
+}
+
+model Share {
+  id         Int     @id @default(autoincrement())
+  senderId   Int
+  sender     User    @relation("Sender", fields: [senderId], references: [id])
+  receiverId Int
+  receiver   User    @relation("Receiver", fields: [receiverId], references: [id])
+  workoutId  Int
+  workout    Workout @relation(fields: [workoutId], references: [id])
+}
+
+model UserFollowers {
+  userId     Int
+  followerId Int
+  following  User @relation("UserFollowing", fields: [userId], references: [id])
+  follower   User @relation("UserFollowers", fields: [followerId], references: [id])
+
+  @@id([userId, followerId])
+}
+
+model Tag {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  workouts  WorkoutTags[]
+  exercises ExerciseTags[]
+}
+
+model WorkoutTags {
+  workoutId Int
+  tagId     Int
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([workoutId, tagId])
+}
+
+model ExerciseTags {
+  exerciseId Int
+  tagId      Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  tag        Tag      @relation(fields: [tagId], references: [id])
+
+  @@id([exerciseId, tagId])
+}
