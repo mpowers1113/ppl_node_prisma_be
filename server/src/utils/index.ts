@@ -1,5 +1,5 @@
-import { pingDB } from '../db';
-import { pingRedis } from '../redis';
+import { pingDB } from '../../db';
+import { pingRedis } from '../../redis';
 
 //Commit comment
 

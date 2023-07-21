@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// This is just placeholder content copy-pasted from prisma docs
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,6 +5,89 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Muscle {
+  abdominals
+  hamstrings
+  adductors
+  quadriceps
+  biceps
+  shoulders
+  chest
+  middle_back
+  calves
+  glutes
+  lower_back
+  lats
+  triceps
+  traps
+  forearms
+  neck
+  abductors
+}
+
+enum ForceType {
+  pull
+  push
+  static
+}
+
+enum LevelType {
+  beginner
+  intermediate
+  expert
+}
+
+enum MechanicType {
+  compound
+  isolation
+}
+
+enum EquipmentType {
+  body_only
+  machine
+  other
+  foam_roll
+  kettlebells
+  dumbbell
+  cable
+  barbell
+  bands
+  medicine_ball
+  exercise_ball
+  ez_curl_bar
+}
+
+enum CategoryType {
+  strength
+  stretching
+  plyometrics
+  strongman
+  powerlifting
+  cardio
+  olympic_weightlifting
+  crossfit
+  weighted_bodyweight
+  assisted_bodyweight
+}
+
+model Exercise {
+  id               String           @id @default(uuid())
+  name             String           @unique
+  primaryMuscles   ExerciseMuscle[] @relation("PrimaryMuscles")
+  secondaryMuscles ExerciseMuscle[] @relation("SecondaryMuscles")
+  force            ForceType?
+  level            LevelType
+  mechanic         MechanicType?
+  equipment        EquipmentType?
+  category         CategoryType?
+  instructions     Instruction[]
+  description      String?
+  dateCreated      DateTime         @default(now())
+  dateUpdated      DateTime         @updatedAt
+  ExerciseTags     ExerciseTags[]
+  workout          Workout[]
 }
 
 model User {
@@ -28,7 +106,7 @@ model User {
 
 model Workout {
   id        Int           @id @default(autoincrement())
-  name      String
+  name      String        @unique
   exercises Exercise[]
   userId    Int
   user      User          @relation(fields: [userId], references: [id])
@@ -36,18 +114,6 @@ model Workout {
   comments  Comment[]
   shares    Share[]
   tags      WorkoutTags[]
-}
-
-model Exercise {
-  id        Int            @id @default(autoincrement())
-  name      String
-  sets      Int
-  reps      Int
-  imageUrl  String?
-  videoUrl  String?
-  workoutId Int
-  workout   Workout        @relation(fields: [workoutId], references: [id])
-  tags      ExerciseTags[]
 }
 
 model Comment {
@@ -95,10 +161,26 @@ model WorkoutTags {
 }
 
 model ExerciseTags {
-  exerciseId Int
+  exerciseId String
   tagId      Int
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
   tag        Tag      @relation(fields: [tagId], references: [id])
 
   @@id([exerciseId, tagId])
+}
+
+model Instruction {
+  id         Int      @id @default(autoincrement())
+  content    String
+  Exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String
+}
+
+model ExerciseMuscle {
+  id                  String    @id @default(uuid())
+  muscle              Muscle    @unique
+  ExercisePrimary     Exercise? @relation("PrimaryMuscles", fields: [exercisePrimaryId], references: [id])
+  exercisePrimaryId   String?
+  ExerciseSecondary   Exercise? @relation("SecondaryMuscles", fields: [exerciseSecondaryId], references: [id])
+  exerciseSecondaryId String?
 }

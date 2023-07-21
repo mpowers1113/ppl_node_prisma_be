@@ -1,0 +1,62 @@
+version: '3.7'
+
+networks:
+  default:
+    name: ppl-dev
+
+services:
+  # The postgres DB connection string will be as follows: "postgresql://docker:docker@db:5432/docker"
+
+  redis:
+    image: redis:6-alpine
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli ping | grep PONG']
+      interval: 5s
+      timeout: 30s
+      retries: 5
+    volumes:
+      - ./redis-data:/data
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+
+  db:
+    hostname: db
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: docker
+    build:
+      context: ./sql
+      dockerfile: db.Dockerfile
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    ports:
+      - 5432:5432
+
+  server:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    restart: always
+    env_file:
+      - dev.env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes: 
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 8000:8000
+      - 5555:5555
