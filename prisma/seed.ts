@@ -26,7 +26,6 @@ async function main() {
     const equipment = exercise.equipment;
     const category = exercise.category;
     const instructions = exercise.instructions;
-    const description = exercise?.description;
 
     const insertedExercise = await prisma.exercise.upsert({
       where: { name },
@@ -39,19 +38,17 @@ async function main() {
         category: category
           ? (splitAndApplyUnderscore(category) as Exercise['category'])
           : undefined,
-        description: description,
+
         primaryMuscles: {
           // @ts-ignore
-          connectOrCreate: primaryMuscles.map(muscle => ({
-            where: { muscle: splitAndApplyUnderscore(muscle) },
-            create: { muscle: splitAndApplyUnderscore(muscle) },
+          create: primaryMuscles.map(muscle => ({
+            muscle: splitAndApplyUnderscore(muscle),
           })),
         },
         secondaryMuscles: {
           // @ts-ignore
-          connectOrCreate: secondaryMuscles.map(muscle => ({
-            where: { muscle: splitAndApplyUnderscore(muscle) },
-            create: { muscle: splitAndApplyUnderscore(muscle) },
+          create: secondaryMuscles.map(muscle => ({
+            muscle: splitAndApplyUnderscore(muscle),
           })),
         },
         instructions: {
@@ -69,19 +66,17 @@ async function main() {
         category: category
           ? (splitAndApplyUnderscore(category) as Exercise['category'])
           : undefined,
-        description: description,
+
         primaryMuscles: {
           // @ts-ignore
-          connectOrCreate: primaryMuscles.map(muscle => ({
-            where: { muscle: splitAndApplyUnderscore(muscle) },
-            create: { muscle: splitAndApplyUnderscore(muscle) },
+          create: primaryMuscles.map(muscle => ({
+            muscle: splitAndApplyUnderscore(muscle),
           })),
         },
         secondaryMuscles: {
           // @ts-ignore
-          connectOrCreate: secondaryMuscles.map(muscle => ({
-            where: { muscle: splitAndApplyUnderscore(muscle) },
-            create: { muscle: splitAndApplyUnderscore(muscle) },
+          create: secondaryMuscles.map(muscle => ({
+            muscle: splitAndApplyUnderscore(muscle),
           })),
         },
         instructions: {
@@ -91,14 +86,6 @@ async function main() {
         },
       },
     });
-    if (index % 100 === 1) {
-      console.log(insertedExercise);
-      const exerciseMuscles = await prisma.exercise.findUnique({
-        where: { name: insertedExercise.name },
-        include: { primaryMuscles: true, secondaryMuscles: true },
-      });
-      console.log(exerciseMuscles);
-    }
   }
 
   const user1 = await prisma.user.upsert({

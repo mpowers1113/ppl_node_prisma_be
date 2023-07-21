@@ -1,4 +1,5 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
+import prisma from '../../prisma/prisma-client';
 import { Middleware } from './middleware';
 
 const app = express();
@@ -11,8 +12,17 @@ middleware.setup();
 // Serves images
 app.use(express.static('public'));
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ status: 'API is running on /api' });
+app.get('/', async (req: Request, res: Response) => {
+  const exercise = await prisma.exercise.findFirst({
+    where: { name: 'Smith Machine Incline Bench Press' },
+    include: {
+      primaryMuscles: true,
+      secondaryMuscles: true,
+      instructions: true,
+    },
+  });
+  console.log(exercise);
+  res.json({ exercise });
 });
 
 const PORT = process.env.PORT || 3000;

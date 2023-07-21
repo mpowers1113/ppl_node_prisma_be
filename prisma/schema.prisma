@@ -83,7 +83,6 @@ model Exercise {
   equipment        EquipmentType?
   category         CategoryType?
   instructions     Instruction[]
-  description      String?
   dateCreated      DateTime         @default(now())
   dateUpdated      DateTime         @updatedAt
   ExerciseTags     ExerciseTags[]
@@ -178,7 +177,7 @@ model Instruction {
 
 model ExerciseMuscle {
   id                  String    @id @default(uuid())
-  muscle              Muscle    @unique
+  muscle              Muscle
   ExercisePrimary     Exercise? @relation("PrimaryMuscles", fields: [exercisePrimaryId], references: [id])
   exercisePrimaryId   String?
   ExerciseSecondary   Exercise? @relation("SecondaryMuscles", fields: [exerciseSecondaryId], references: [id])
