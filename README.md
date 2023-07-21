@@ -1,6 +1,4 @@
-# ppl_node_prisma_be
-
-## Workout App w/ Node, Redis, and Prisma
+# Workout App w/ Node, Redis, and Prisma
 
 Borrowing this legends data:
 
