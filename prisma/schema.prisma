@@ -67,25 +67,27 @@ enum CategoryType {
   powerlifting
   cardio
   olympic_weightlifting
+  crossfit
+  weighted_bodyweight
+  assisted_bodyweight
 }
 
 model Exercise {
-  id               String        @id @default(uuid())
-  name             String        @unique
+  id               String           @id @default(uuid())
+  name             String           @unique
   primaryMuscles   ExerciseMuscle[] @relation("PrimaryMuscles")
   secondaryMuscles ExerciseMuscle[] @relation("SecondaryMuscles")
   force            ForceType?
   level            LevelType
   mechanic         MechanicType?
   equipment        EquipmentType?
-  category         CategoryType
+  category         CategoryType?
   instructions     Instruction[]
   description      String?
-  tips             Tip[]
-  dateCreated      DateTime      @default(now())
-  dateUpdated      DateTime      @updatedAt
+  dateCreated      DateTime         @default(now())
+  dateUpdated      DateTime         @updatedAt
   ExerciseTags     ExerciseTags[]
-  workout          Workout[]   
+  workout          Workout[]
 }
 
 model User {
@@ -174,19 +176,11 @@ model Instruction {
   exerciseId String
 }
 
-model Tip {
-  id         Int      @id @default(autoincrement())
-  content    String
-  Exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId String
-}
-
 model ExerciseMuscle {
-  id                 Int         @id @default(autoincrement())
-  muscle             Muscle
-  ExercisePrimary    Exercise?   @relation("PrimaryMuscles", fields: [exercisePrimaryId], references: [id])
-  exercisePrimaryId  String?
-  ExerciseSecondary  Exercise?   @relation("SecondaryMuscles", fields: [exerciseSecondaryId], references: [id])
+  id                  String    @id @default(uuid())
+  muscle              Muscle    @unique
+  ExercisePrimary     Exercise? @relation("PrimaryMuscles", fields: [exercisePrimaryId], references: [id])
+  exercisePrimaryId   String?
+  ExerciseSecondary   Exercise? @relation("SecondaryMuscles", fields: [exerciseSecondaryId], references: [id])
   exerciseSecondaryId String?
 }
-
