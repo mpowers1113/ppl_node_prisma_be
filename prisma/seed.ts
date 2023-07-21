@@ -86,14 +86,6 @@ async function main() {
         },
       },
     });
-    if (index % 100 === 1) {
-      console.log(insertedExercise);
-      const exerciseMuscles = await prisma.exercise.findUnique({
-        where: { name: insertedExercise.name },
-        include: { primaryMuscles: true, secondaryMuscles: true, instructions: true },
-      });
-      console.log(exerciseMuscles);
-    }
   }
 
   const user1 = await prisma.user.upsert({
