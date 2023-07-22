@@ -1,6 +1,12 @@
+import * as trpcExpress from '@trpc/server/adapters/express';
 import express, { Request, Response } from 'express';
 import prisma from '../../prisma/prisma-client';
+import { createContext } from '../src/trpc';
 import { Middleware } from './middleware';
+import { appRouter } from './trpc/routers/routes';
+import { initializeApp } from './utils';
+
+initializeApp().then(() => console.log('app initialized'));
 
 const app = express();
 const middleware = new Middleware(app);
@@ -11,8 +17,15 @@ middleware.setup();
 
 // Serves images
 app.use(express.static('public'));
+app.use(
+  '/trpc',
+  trpcExpress.createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  }),
+);
 
-app.get('/', async (req: Request, res: Response) => {
+app.get('/blahhhhhh', async (req: Request, res: Response) => {
   const exercise = await prisma.exercise.findFirst({
     where: { name: 'Smith Machine Incline Bench Press' },
     include: {
