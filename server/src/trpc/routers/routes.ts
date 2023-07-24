@@ -9,12 +9,11 @@ import { muscleRouter } from './muscle';
 
 const exerciseRouter = router({
   list: publicProcedure.query(async () => {
-    const exercises = await prisma.exercise.findMany();
-    return exercises;
+    return await prisma.exercise.findMany();
   }),
   name: publicProcedure.query(async ({ ctx }) => {
     const queryString = ctx.req.query.name as string;
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: { name: { contains: queryString } },
       include: {
         primaryMuscles: true,
@@ -22,7 +21,6 @@ const exerciseRouter = router({
         instructions: true,
       },
     });
-    return exercise;
   }),
 });
 
