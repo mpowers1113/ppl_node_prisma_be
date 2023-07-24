@@ -7,8 +7,9 @@ export const initializeApp = async () => {
   try {
     await connectDB();
     await pingRedis();
-    console.log('app initialized');
+    return 'app initialized successfully';
   } catch (e) {
     console.error(e);
+    return 'app failed to initialize';
   }
 };

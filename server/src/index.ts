@@ -6,7 +6,7 @@ import { Middleware } from './middleware';
 import { appRouter } from './trpc/routers/routes';
 import { initializeApp } from './utils';
 
-initializeApp().then(() => console.log('app initialized'));
+initializeApp().then(res => console.log(res));
 
 const app = express();
 const middleware = new Middleware(app);

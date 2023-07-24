@@ -3,7 +3,7 @@ import { publicProcedure, router } from '../index';
 
 export const muscleRouter = router({
   glutes: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -12,10 +12,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   chest: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -24,10 +23,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   lower_back: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -36,10 +34,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   shoulders: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -48,10 +45,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   quadriceps: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -60,10 +56,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   biceps: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -72,10 +67,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   hamstrings: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -84,10 +78,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   traps: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -96,10 +89,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   calves: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -108,10 +100,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   adductors: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -120,10 +111,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   neck: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -132,10 +122,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   forearms: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -144,10 +133,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   lats: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -156,10 +144,9 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
   middle_back: publicProcedure.query(async () => {
-    const exercise = await prisma.exercise.findMany({
+    return await prisma.exercise.findMany({
       where: {
         primaryMuscles: {
           some: {
@@ -168,6 +155,5 @@ export const muscleRouter = router({
         },
       },
     });
-    return exercise;
   }),
 });
