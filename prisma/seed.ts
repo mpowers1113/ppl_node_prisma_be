@@ -36,7 +36,7 @@ async function main() {
         mechanic: mechanic,
         equipment: equipment ? splitAndApplyUnderscore(equipment) : undefined,
         category: category
-          ? (splitAndApplyUnderscore(category) as Exercise['category'])
+          ? (splitAndApplyUnderscore(category) as unknown as Exercise['category'])
           : undefined,
 
         primaryMuscles: {
@@ -64,7 +64,7 @@ async function main() {
         mechanic: mechanic,
         equipment: equipment ? splitAndApplyUnderscore(equipment) : undefined,
         category: category
-          ? (splitAndApplyUnderscore(category) as Exercise['category'])
+          ? (splitAndApplyUnderscore(category) as unknown as Exercise['category'])
           : undefined,
 
         primaryMuscles: {
