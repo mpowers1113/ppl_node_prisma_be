@@ -1,6 +1,6 @@
 import z from 'zod';
 
-const MuscleEnum = z.enum([
+export const MuscleEnum = z.enum([
   'abdominals',
   'hamstrings',
   'adductors',
@@ -21,16 +21,16 @@ const MuscleEnum = z.enum([
 ]);
 
 // Enum for ForceType
-const ForceTypeEnum = z.enum(['pull', 'push', 'static']);
+export const ForceTypeEnum = z.enum(['pull', 'push', 'static']);
 
 // Enum for LevelType
-const LevelTypeEnum = z.enum(['beginner', 'intermediate', 'expert']);
+export const LevelTypeEnum = z.enum(['beginner', 'intermediate', 'expert']);
 
 // Enum for MechanicType
-const MechanicTypeEnum = z.enum(['compound', 'isolation']);
+export const MechanicTypeEnum = z.enum(['compound', 'isolation']);
 
 // Enum for EquipmentType
-const EquipmentTypeEnum = z.enum([
+export const EquipmentTypeEnum = z.enum([
   'body_only',
   'machine',
   'other',

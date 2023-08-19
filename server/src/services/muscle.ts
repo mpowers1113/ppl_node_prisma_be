@@ -167,3 +167,15 @@ export const getMiddleBackExercises = async () => {
     },
   });
 };
+
+export const getAbdominalsExercises = async () => {
+  return await prisma.exercise.findMany({
+    where: {
+      primaryMuscles: {
+        some: {
+          muscle: 'abdominals',
+        },
+      },
+    },
+  });
+};
